@@ -55,11 +55,17 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   navigateToEditDetails() {
-    this.router.navigate(['/admin/tenants']);
+    if (this.tenantId) {
+      this.router.navigate(['/admin/tenant', this.tenantId, 'edit']);
+    }
   }
 
   navigateToAllTenants() {
     this.router.navigate(['/admin/tenants']);
+  }
+
+  navigateToHome() {
+    this.router.navigate(['/']);
   }
 }
 

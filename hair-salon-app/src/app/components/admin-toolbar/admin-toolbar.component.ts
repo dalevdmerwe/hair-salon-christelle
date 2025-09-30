@@ -35,8 +35,14 @@ export class AdminToolbarComponent {
     }
   }
 
-  navigateToTenants() {
-    this.router.navigate(['/admin/tenants']);
+  navigateToHome() {
+    this.router.navigate(['/']);
+  }
+
+  navigateToEdit() {
+    if (this.tenantId) {
+      this.router.navigate(['/admin/tenant', this.tenantId, 'edit']);
+    }
   }
 }
 

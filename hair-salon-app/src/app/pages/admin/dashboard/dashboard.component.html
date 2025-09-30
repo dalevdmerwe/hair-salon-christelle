@@ -3,8 +3,8 @@
   <div class="toolbar">
     <div class="toolbar-content">
       <div class="tenant-info">
-        <button class="btn-back" (click)="navigateToAllTenants()" title="All Tenants">
-          ← All Tenants
+        <button class="btn-back" (click)="navigateToHome()" title="Home">
+          ← Home
         </button>
         <h1 *ngIf="tenant">{{ tenant.name }}</h1>
         <h1 *ngIf="!tenant && !loading">Admin Dashboard</h1>

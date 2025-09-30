@@ -1,0 +1,244 @@
+<app-admin-toolbar 
+  [tenant]="tenant" 
+  [tenantId]="tenantId"
+  currentPage="tenants"
+></app-admin-toolbar>
+
+<div class="edit-tenant-container">
+  <div class="container">
+    <div *ngIf="loading" class="loading">
+      <p>Loading tenant...</p>
+    </div>
+
+    <div *ngIf="!loading" class="edit-tenant-content">
+      <header class="page-header">
+        <h1>Edit Tenant</h1>
+        <p class="subtitle">Update tenant information and settings</p>
+      </header>
+
+      <form (ngSubmit)="saveTenant()" class="tenant-form">
+        <!-- Basic Information -->
+        <div class="form-section">
+          <h3>Basic Information</h3>
+          
+          <div class="form-group">
+            <label for="name">Tenant Name *</label>
+            <input
+              type="text"
+              id="name"
+              [(ngModel)]="tenantForm.name"
+              name="name"
+              required
+              placeholder="e.g., Christelle's Hair Salon"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="slug">URL Slug *</label>
+            <input
+              type="text"
+              id="slug"
+              [(ngModel)]="tenantForm.slug"
+              name="slug"
+              required
+              placeholder="e.g., christelles-hair-salon"
+              pattern="[a-z0-9\-]+"
+            >
+            <small class="help-text">URL-friendly identifier (lowercase, numbers, and hyphens only)</small>
+          </div>
+
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea
+              id="description"
+              [(ngModel)]="tenantForm.description"
+              name="description"
+              rows="3"
+              placeholder="Brief description of the business"
+            ></textarea>
+          </div>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="form-section">
+          <h3>Contact Information</h3>
+          
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              [(ngModel)]="tenantForm.email"
+              name="email"
+              placeholder="contact@example.com"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone</label>
+            <input
+              type="tel"
+              id="phone"
+              [(ngModel)]="tenantForm.phone"
+              name="phone"
+              placeholder="+27 XX XXX XXXX"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="address">Address</label>
+            <input
+              type="text"
+              id="address"
+              [(ngModel)]="tenantForm.address"
+              name="address"
+              placeholder="Start typing address..."
+              #addressInput
+              (focus)="initAddressAutocomplete()"
+            >
+            <small class="help-text">Start typing to search for address</small>
+          </div>
+        </div>
+
+        <!-- Logo/Image -->
+        <div class="form-section">
+          <h3>Logo / Image</h3>
+          
+          <div class="image-upload">
+            <div *ngIf="imagePreview" class="image-preview">
+              <img [src]="imagePreview" alt="Preview">
+              <button type="button" class="btn-remove-image" (click)="removeImage()">
+                ✕ Remove
+              </button>
+            </div>
+
+            <div class="upload-area">
+              <input
+                type="file"
+                id="imageFile"
+                (change)="onFileSelected($event)"
+                accept="image/*"
+                #fileInput
+              >
+              <label for="imageFile" class="upload-label">
+                📷 Choose Image
+              </label>
+              <small class="help-text">Recommended: Square image, at least 500x500px</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Business Hours -->
+        <div class="form-section">
+          <h3>Business Hours</h3>
+          <p class="section-help">Set operating hours for each day of the week</p>
+          
+          <div class="business-hours-grid">
+            <div class="hours-row">
+              <label for="monday">Monday</label>
+              <input
+                type="text"
+                id="monday"
+                [(ngModel)]="tenantForm.businessHours.monday"
+                name="monday"
+                placeholder="e.g., 9:00 AM - 5:00 PM or Closed"
+              >
+            </div>
+
+            <div class="hours-row">
+              <label for="tuesday">Tuesday</label>
+              <input
+                type="text"
+                id="tuesday"
+                [(ngModel)]="tenantForm.businessHours.tuesday"
+                name="tuesday"
+                placeholder="e.g., 9:00 AM - 5:00 PM or Closed"
+              >
+            </div>
+
+            <div class="hours-row">
+              <label for="wednesday">Wednesday</label>
+              <input
+                type="text"
+                id="wednesday"
+                [(ngModel)]="tenantForm.businessHours.wednesday"
+                name="wednesday"
+                placeholder="e.g., 9:00 AM - 5:00 PM or Closed"
+              >
+            </div>
+
+            <div class="hours-row">
+              <label for="thursday">Thursday</label>
+              <input
+                type="text"
+                id="thursday"
+                [(ngModel)]="tenantForm.businessHours.thursday"
+                name="thursday"
+                placeholder="e.g., 9:00 AM - 5:00 PM or Closed"
+              >
+            </div>
+
+            <div class="hours-row">
+              <label for="friday">Friday</label>
+              <input
+                type="text"
+                id="friday"
+                [(ngModel)]="tenantForm.businessHours.friday"
+                name="friday"
+                placeholder="e.g., 9:00 AM - 5:00 PM or Closed"
+              >
+            </div>
+
+            <div class="hours-row">
+              <label for="saturday">Saturday</label>
+              <input
+                type="text"
+                id="saturday"
+                [(ngModel)]="tenantForm.businessHours.saturday"
+                name="saturday"
+                placeholder="e.g., 10:00 AM - 2:00 PM or Closed"
+              >
+            </div>
+
+            <div class="hours-row">
+              <label for="sunday">Sunday</label>
+              <input
+                type="text"
+                id="sunday"
+                [(ngModel)]="tenantForm.businessHours.sunday"
+                name="sunday"
+                placeholder="e.g., Closed"
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Status -->
+        <div class="form-section">
+          <div class="form-group checkbox-group">
+            <label>
+              <input 
+                type="checkbox" 
+                [(ngModel)]="tenantForm.isActive" 
+                name="isActive"
+              >
+              <span>Active (tenant can be accessed)</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" (click)="cancel()" [disabled]="uploading">
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary" [disabled]="uploading">
+            <span *ngIf="!uploading">💾 Update Tenant</span>
+            <span *ngIf="uploading">⏳ Saving...</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+

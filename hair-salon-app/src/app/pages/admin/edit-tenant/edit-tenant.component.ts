@@ -1,30 +1,28 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TenantService } from '../../../core/services/tenant.service';
 import { SupabaseService } from '../../../core/services/supabase.service';
 import { Tenant } from '../../../core/models/tenant.model';
+import { AdminToolbarComponent } from '../../../components/admin-toolbar/admin-toolbar.component';
 
 declare var google: any;
 
 @Component({
-  selector: 'app-tenants',
+  selector: 'app-edit-tenant',
   standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './tenants.component.html',
-  styleUrls: ['./tenants.component.scss']
+  imports: [CommonModule, FormsModule, AdminToolbarComponent],
+  templateUrl: './edit-tenant.component.html',
+  styleUrls: ['./edit-tenant.component.scss']
 })
-export class TenantsComponent implements OnInit {
-  @ViewChild('addressInput') addressInput!: ElementRef;
-
-  tenants: Tenant[] = [];
+export class EditTenantComponent implements OnInit {
+  tenantId: string = '';
+  tenant: Tenant | null = null;
   loading = true;
-  error: string | null = null;
-
-  // Form state
-  showForm = false;
-  editingTenant: Tenant | null = null;
+  uploading = false;
+  
+  @ViewChild('addressInput') addressInput!: ElementRef;
   autocomplete: any = null;
   
   // Form model
@@ -49,68 +47,43 @@ export class TenantsComponent implements OnInit {
     isActive: true
   };
 
-  // Image upload state
+  // Image upload
   selectedFile: File | null = null;
   imagePreview: string | null = null;
-  uploading = false;
 
   constructor(
+    private route: ActivatedRoute,
+    private router: Router,
     private tenantService: TenantService,
     private supabaseService: SupabaseService,
-    private router: Router,
     private ngZone: NgZone
   ) {}
 
   ngOnInit() {
-    this.loadTenants();
-  }
-
-  loadTenants() {
-    this.loading = true;
-    this.error = null;
-    
-    this.tenantService.getAllTenants().subscribe({
-      next: (tenants) => {
-        this.tenants = tenants;
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error('Error loading tenants:', err);
-        this.error = 'Failed to load tenants. Please try again.';
-        this.loading = false;
+    this.route.params.subscribe(params => {
+      this.tenantId = params['tenantId'];
+      if (this.tenantId) {
+        this.loadTenant();
       }
     });
   }
 
-  openCreateForm() {
-    this.editingTenant = null;
-    this.tenantForm = {
-      id: '',
-      name: '',
-      slug: '',
-      description: '',
-      email: '',
-      phone: '',
-      address: '',
-      imageUrl: '',
-      businessHours: {
-        monday: '',
-        tuesday: '',
-        wednesday: '',
-        thursday: '',
-        friday: '',
-        saturday: '',
-        sunday: ''
+  private loadTenant() {
+    this.tenantService.getTenantById(this.tenantId).subscribe({
+      next: (tenant) => {
+        this.tenant = tenant;
+        this.populateForm(tenant ? tenant: {} as Tenant);
+        this.loading = false;
       },
-      isActive: true
-    };
-    this.selectedFile = null;
-    this.imagePreview = null;
-    this.showForm = true;
+      error: (error) => {
+        console.error('Error loading tenant:', error);
+        alert('Failed to load tenant. Redirecting...');
+        this.router.navigate(['/admin/tenants']);
+      }
+    });
   }
 
-  openEditForm(tenant: Tenant) {
-    this.editingTenant = tenant;
+  private populateForm(tenant: Tenant) {
     this.tenantForm = {
       id: tenant.id,
       name: tenant.name,
@@ -131,35 +104,17 @@ export class TenantsComponent implements OnInit {
       },
       isActive: tenant.isActive
     };
-    this.selectedFile = null;
-    this.imagePreview = tenant.imageUrl || null;
-    this.showForm = true;
-  }
 
-  closeForm() {
-    this.showForm = false;
-    this.editingTenant = null;
-    this.selectedFile = null;
-    this.imagePreview = null;
+    if (tenant.imageUrl) {
+      this.imagePreview = tenant.imageUrl;
+    }
   }
 
   onFileSelected(event: any) {
     const file = event.target.files[0];
     if (file) {
-      // Validate file type
-      if (!file.type.startsWith('image/')) {
-        alert('Please select an image file');
-        return;
-      }
-
-      // Validate file size (max 5MB)
-      if (file.size > 5 * 1024 * 1024) {
-        alert('Image size must be less than 5MB');
-        return;
-      }
-
       this.selectedFile = file;
-
+      
       // Create preview
       const reader = new FileReader();
       reader.onload = (e: any) => {
@@ -176,7 +131,6 @@ export class TenantsComponent implements OnInit {
   }
 
   generateSlug() {
-    // Auto-generate slug from name
     this.tenantForm.slug = this.tenantForm.name
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, '-')
@@ -208,7 +162,7 @@ export class TenantsComponent implements OnInit {
           return;
         }
 
-        imageUrl = url || '';
+        imageUrl = url || imageUrl;
       }
 
       const tenantData: Partial<Tenant> = {
@@ -223,35 +177,18 @@ export class TenantsComponent implements OnInit {
         isActive: this.tenantForm.isActive
       };
 
-      if (this.editingTenant) {
-        // Update existing tenant
-        this.tenantService.updateTenant(this.editingTenant.id, tenantData).subscribe({
-          next: () => {
-            this.uploading = false;
-            this.loadTenants();
-            this.closeForm();
-          },
-          error: (err) => {
-            console.error('Error updating tenant:', err);
-            alert('Failed to update tenant. Please try again.');
-            this.uploading = false;
-          }
-        });
-      } else {
-        // Create new tenant
-        this.tenantService.createTenant(tenantData).subscribe({
-          next: () => {
-            this.uploading = false;
-            this.loadTenants();
-            this.closeForm();
-          },
-          error: (err) => {
-            console.error('Error creating tenant:', err);
-            alert('Failed to create tenant. Please try again.');
-            this.uploading = false;
-          }
-        });
-      }
+      this.tenantService.updateTenant(this.tenantId, tenantData).subscribe({
+        next: () => {
+          this.uploading = false;
+          alert('Tenant updated successfully!');
+          this.router.navigate(['/admin/tenants']);
+        },
+        error: (err) => {
+          console.error('Error updating tenant:', err);
+          alert('Failed to update tenant. Please try again.');
+          this.uploading = false;
+        }
+      });
     } catch (error) {
       console.error('Error in saveTenant:', error);
       alert('An error occurred. Please try again.');
@@ -259,62 +196,23 @@ export class TenantsComponent implements OnInit {
     }
   }
 
-  deleteTenant(tenant: Tenant) {
-    if (!confirm(`Are you sure you want to delete "${tenant.name}"? This will also delete all associated services.`)) {
-      return;
-    }
-
-    this.tenantService.deleteTenant(tenant.id).subscribe({
-      next: () => {
-        this.loadTenants();
-      },
-      error: (err) => {
-        console.error('Error deleting tenant:', err);
-        alert('Failed to delete tenant. Please try again.');
-      }
-    });
-  }
-
-  toggleActive(tenant: Tenant) {
-    this.tenantService.updateTenant(tenant.id, { isActive: !tenant.isActive }).subscribe({
-      next: () => {
-        this.loadTenants();
-      },
-      error: (err) => {
-        console.error('Error toggling tenant status:', err);
-        alert('Failed to update tenant status. Please try again.');
-      }
-    });
-  }
-
-  goToServices(tenant: Tenant) {
-    this.router.navigate(['/admin', tenant.id, 'services']);
-  }
-
-  goToBookings(tenant: Tenant) {
-    this.router.navigate(['/admin', tenant.id, 'bookings']);
-  }
-
-  goToEdit(tenant: Tenant) {
-    this.router.navigate(['/admin/tenant', tenant.id, 'edit']);
+  cancel() {
+    this.router.navigate(['/admin/{{tenant.id}}']);
   }
 
   initAddressAutocomplete() {
     if (this.autocomplete || !this.addressInput) {
-      return; // Already initialized
+      return;
     }
 
-    // Wait for Google Maps API to load
     const initAutocomplete = () => {
-      // Check if Google Maps API is loaded
       if (typeof google === 'undefined' || !google.maps || !google.maps.places) {
         console.warn('Google Maps API not loaded yet. Retrying...');
-        setTimeout(initAutocomplete, 500); // Retry after 500ms
+        setTimeout(initAutocomplete, 500);
         return;
       }
 
       try {
-        // Use old Autocomplete API (more reliable with Angular forms)
         this.autocomplete = new google.maps.places.Autocomplete(
           this.addressInput.nativeElement,
           {
@@ -339,7 +237,6 @@ export class TenantsComponent implements OnInit {
       }
     };
 
-    // Start initialization
     initAutocomplete();
   }
 }

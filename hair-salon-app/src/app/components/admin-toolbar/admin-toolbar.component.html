@@ -1,8 +1,8 @@
 <div class="admin-toolbar">
   <div class="toolbar-content">
     <div class="tenant-info">
-      <button class="btn-back" (click)="navigateToTenants()" title="All Tenants">
-        ← All Tenants
+      <button class="btn-back" (click)="navigateToHome()" title="Home">
+        ← Home
       </button>
       <h1 *ngIf="tenant">{{ tenant.name }}</h1>
     </div>
@@ -29,10 +29,10 @@
       >
         📅 Bookings
       </button>
-      <button 
-        class="toolbar-btn" 
+      <button
+        class="toolbar-btn"
         [class.active]="currentPage === 'tenants'"
-        (click)="navigateToTenants()"
+        (click)="navigateToEdit()"
       >
         ✏️ Edit Details
       </button>

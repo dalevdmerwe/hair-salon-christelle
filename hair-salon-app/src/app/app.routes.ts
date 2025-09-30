@@ -10,6 +10,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/admin/tenants/tenants.component').then(m => m.TenantsComponent)
   },
   {
+    path: 'admin/tenant/:tenantId/edit',
+    loadComponent: () => import('./pages/admin/edit-tenant/edit-tenant.component').then(m => m.EditTenantComponent)
+  },
+  {
     path: 'admin/:tenantId/services',
     loadComponent: () => import('./pages/admin/admin.component').then(m => m.AdminComponent)
   },
