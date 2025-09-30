@@ -18,6 +18,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/admin/bookings/bookings.component').then(m => m.BookingsComponent)
   },
   {
+    path: 'admin/:tenantId',
+    loadComponent: () => import('./pages/admin/dashboard/dashboard.component').then(m => m.AdminDashboardComponent)
+  },
+  {
     path: 'admin',
     redirectTo: 'admin/tenants',
     pathMatch: 'full'

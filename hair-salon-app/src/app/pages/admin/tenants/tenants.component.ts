@@ -300,34 +300,42 @@ export class TenantsComponent implements OnInit {
       return; // Already initialized
     }
 
-    // Check if Google Maps API is loaded
-    if (typeof google === 'undefined' || !google.maps || !google.maps.places) {
-      console.warn('Google Maps API not loaded. Address autocomplete disabled.');
-      console.log('To enable: Add Google Maps script to index.html');
-      return;
-    }
+    // Wait for Google Maps API to load
+    const initAutocomplete = () => {
+      // Check if Google Maps API is loaded
+      if (typeof google === 'undefined' || !google.maps || !google.maps.places) {
+        console.warn('Google Maps API not loaded yet. Retrying...');
+        setTimeout(initAutocomplete, 500); // Retry after 500ms
+        return;
+      }
 
-    try {
-      this.autocomplete = new google.maps.places.Autocomplete(
-        this.addressInput.nativeElement,
-        {
-          types: ['address'],
-          componentRestrictions: { country: 'za' } // Restrict to South Africa
-        }
-      );
-
-      this.autocomplete.addListener('place_changed', () => {
-        this.ngZone.run(() => {
-          const place = this.autocomplete.getPlace();
-
-          if (place.formatted_address) {
-            this.tenantForm.address = place.formatted_address;
+      try {
+        this.autocomplete = new google.maps.places.Autocomplete(
+          this.addressInput.nativeElement,
+          {
+            types: ['address'],
+            componentRestrictions: { country: 'za' } // Restrict to South Africa
           }
+        );
+
+        this.autocomplete.addListener('place_changed', () => {
+          this.ngZone.run(() => {
+            const place = this.autocomplete.getPlace();
+
+            if (place.formatted_address) {
+              this.tenantForm.address = place.formatted_address;
+            }
+          });
         });
-      });
-    } catch (error) {
-      console.error('Error initializing address autocomplete:', error);
-    }
+
+        console.log('Address autocomplete initialized successfully');
+      } catch (error) {
+        console.error('Error initializing address autocomplete:', error);
+      }
+    };
+
+    // Start initialization
+    initAutocomplete();
   }
 }
 

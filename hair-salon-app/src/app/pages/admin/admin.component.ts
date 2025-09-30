@@ -6,11 +6,12 @@ import { ServiceService } from '../../core/services/service.service';
 import { TenantService } from '../../core/services/tenant.service';
 import { Service } from '../../core/models/service.model';
 import { Tenant } from '../../core/models/tenant.model';
+import { AdminToolbarComponent } from '../../components/admin-toolbar/admin-toolbar.component';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, AdminToolbarComponent],
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss']
 })

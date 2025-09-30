@@ -6,11 +6,12 @@ import { TenantService } from '../../../core/services/tenant.service';
 import { WhatsAppService } from '../../../core/services/whatsapp.service';
 import { BookingWithDetails } from '../../../core/models/booking.model';
 import { Tenant } from '../../../core/models/tenant.model';
+import { AdminToolbarComponent } from '../../../components/admin-toolbar/admin-toolbar.component';
 
 @Component({
   selector: 'app-bookings',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, AdminToolbarComponent],
   templateUrl: './bookings.component.html',
   styleUrls: ['./bookings.component.scss']
 })

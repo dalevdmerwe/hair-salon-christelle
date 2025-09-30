@@ -1,0 +1,89 @@
+<div class="admin-dashboard">
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <div class="toolbar-content">
+      <div class="tenant-info">
+        <button class="btn-back" (click)="navigateToAllTenants()" title="All Tenants">
+          ← All Tenants
+        </button>
+        <h1 *ngIf="tenant">{{ tenant.name }}</h1>
+        <h1 *ngIf="!tenant && !loading">Admin Dashboard</h1>
+      </div>
+
+      <div class="toolbar-actions" *ngIf="tenant">
+        <button class="toolbar-btn" (click)="navigateToEditDetails()">
+          ✏️ Edit Details
+        </button>
+        <button class="toolbar-btn" (click)="navigateToServices()">
+          💇 Services
+        </button>
+        <button class="toolbar-btn" (click)="navigateToBookings()">
+          📅 Bookings
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="dashboard-content">
+    <div class="container">
+      <div *ngIf="loading" class="loading">
+        <p>Loading...</p>
+      </div>
+
+      <div *ngIf="!loading && !tenant" class="no-tenant">
+        <h2>Welcome to Admin Dashboard</h2>
+        <p>Select a tenant to manage or create a new one.</p>
+        <button class="btn btn-primary" (click)="navigateToAllTenants()">
+          View All Tenants
+        </button>
+      </div>
+
+      <div *ngIf="!loading && tenant" class="dashboard-cards">
+        <div class="card" (click)="navigateToEditDetails()">
+          <div class="card-icon">✏️</div>
+          <h3>Edit Details</h3>
+          <p>Update tenant information, logo, and settings</p>
+        </div>
+
+        <div class="card" (click)="navigateToServices()">
+          <div class="card-icon">💇</div>
+          <h3>Manage Services</h3>
+          <p>Add, edit, or remove services and pricing</p>
+        </div>
+
+        <div class="card" (click)="navigateToBookings()">
+          <div class="card-icon">📅</div>
+          <h3>View Bookings</h3>
+          <p>Manage appointments and customer bookings</p>
+        </div>
+
+        <div class="card info-card">
+          <div class="card-icon">📊</div>
+          <h3>Quick Stats</h3>
+          <div class="stats">
+            <div class="stat-item">
+              <strong>Status:</strong>
+              <span [class.active]="tenant.isActive" [class.inactive]="!tenant.isActive">
+                {{ tenant.isActive ? 'Active' : 'Inactive' }}
+              </span>
+            </div>
+            <div class="stat-item" *ngIf="tenant.email">
+              <strong>Email:</strong>
+              <span>{{ tenant.email }}</span>
+            </div>
+            <div class="stat-item" *ngIf="tenant.phone">
+              <strong>Phone:</strong>
+              <span>{{ tenant.phone }}</span>
+            </div>
+            <div class="stat-item" *ngIf="tenant.address">
+              <strong>Address:</strong>
+              <span>{{ tenant.address }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

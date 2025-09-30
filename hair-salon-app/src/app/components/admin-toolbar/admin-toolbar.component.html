@@ -1,0 +1,42 @@
+<div class="admin-toolbar">
+  <div class="toolbar-content">
+    <div class="tenant-info">
+      <button class="btn-back" (click)="navigateToTenants()" title="All Tenants">
+        ← All Tenants
+      </button>
+      <h1 *ngIf="tenant">{{ tenant.name }}</h1>
+    </div>
+
+    <div class="toolbar-actions" *ngIf="tenantId">
+      <button 
+        class="toolbar-btn" 
+        [class.active]="currentPage === 'dashboard'"
+        (click)="navigateToDashboard()"
+      >
+        🏠 Dashboard
+      </button>
+      <button 
+        class="toolbar-btn" 
+        [class.active]="currentPage === 'services'"
+        (click)="navigateToServices()"
+      >
+        💇 Services
+      </button>
+      <button 
+        class="toolbar-btn" 
+        [class.active]="currentPage === 'bookings'"
+        (click)="navigateToBookings()"
+      >
+        📅 Bookings
+      </button>
+      <button 
+        class="toolbar-btn" 
+        [class.active]="currentPage === 'tenants'"
+        (click)="navigateToTenants()"
+      >
+        ✏️ Edit Details
+      </button>
+    </div>
+  </div>
+</div>
+

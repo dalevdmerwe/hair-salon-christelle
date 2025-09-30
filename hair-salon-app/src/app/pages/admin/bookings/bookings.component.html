@@ -1,11 +1,13 @@
+<app-admin-toolbar
+  [tenant]="tenant"
+  [tenantId]="tenantId"
+  currentPage="bookings"
+></app-admin-toolbar>
+
 <div class="bookings-container">
   <div class="header">
-    <div class="breadcrumb">
-      <a href="/admin/tenants">← Back to Tenants</a>
-      <span *ngIf="tenant"> / {{ tenant.name }} / Bookings</span>
-    </div>
     <h1>📅 Bookings Management</h1>
-    <p class="subtitle" *ngIf="tenant">{{ tenant.name }}</p>
+    <p class="subtitle">View and manage all appointments</p>
   </div>
 
   <!-- Stats Cards -->
