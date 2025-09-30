@@ -123,7 +123,7 @@
 
           <div class="info-item" *ngIf="tenant?.address">
             <strong>📍 Address:</strong>
-            <p>{{ tenant.address }}</p>
+            <p>{{ tenant?.address }}</p>
             <button class="btn-directions" (click)="getDirections()">
               🗺️ Get Directions
             </button>
