@@ -1,7 +1,7 @@
 <div class="home-container">
   <nav class="top-nav">
     <a href="/" class="logo">{{ tenant?.name || 'Hair Salon' }}</a>
-    <a href="/admin/tenants" class="admin-link">🔧 Admin</a>
+    <a href="/admin/{{ tenant?.id }}" class="admin-link">🔧 Admin</a>
   </nav>
 
   <header class="hero" [style.background-image]="heroBackgroundUrl ? 'url(' + heroBackgroundUrl + ')' : null">
