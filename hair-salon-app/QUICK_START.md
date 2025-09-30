@@ -1,37 +1,147 @@
 # 🚀 Quick Start Guide
 
-## ✅ What's Working Now
+## ✅ What You Have
 
-Your Angular app is running at **http://localhost:4200**
+A complete multi-tenant hair salon application with:
+- ✅ Multi-tenant architecture
+- ✅ Christelle's salon as default tenant
+- ✅ Hero background from tenant image
+- ✅ Dynamic tenant data
+- ✅ Image upload for tenants
+- ✅ Service management per tenant
+- ✅ Clean, professional UI
 
-### Current Features:
-- ✅ **Home page** with beautiful design
-- ✅ **7 Services displayed** with mock data:
-  - Haircut - Women (60 min, R250)
-  - Haircut - Men (30 min, R150)
-  - Hair Coloring (120 min, R600)
-  - Highlights (90 min, R450)
-  - Blow Dry (45 min, R200)
-  - Treatment (45 min, R300)
-  - Updo (90 min, R400)
-- ✅ **Smooth scrolling** navigation
-- ✅ **Responsive design** (works on mobile, tablet, desktop)
-- ✅ **No SSR complexity** - Simple client-side app
+---
 
-## 🎯 How to Use
+## 🔧 One-Time Database Setup
 
-### Navigation
-The buttons on the home page now use **anchor links** to scroll to sections:
-- **"View Services"** → Scrolls to services section
-- **"Contact Us"** → Scrolls to contact section
+### Run One Clean Script in Supabase
 
-### Running the App
+1. **Open Supabase Dashboard** → SQL Editor
+2. **Copy entire contents** of: **`supabase/FRESH_DATABASE_SETUP.sql`**
+3. **Paste and Run**
+4. **Verify** you see: "🎉 SUCCESS!"
+
+**That's it!** The database is ready with:
+- ✅ Tenants table
+- ✅ Services table
+- ✅ Storage bucket for images
+- ✅ RLS policies
+- ✅ Sample data (Christelle's salon + 10 services)
+
+---
+
+## 📷 Add Hero Background Image
+
+### Upload Christelle's Salon Image
+
+1. **Start the app:**
+   ```bash
+   cd hair-salon-app
+   npm start
+   ```
+
+2. **Go to:** `http://localhost:4200/admin/tenants`
+
+3. **Edit Christelle's salon:**
+   - Click ✏️ (edit) on "Christelle's Hair Salon"
+   - Click "📷 Choose Image"
+   - Select a nice salon/hair image
+   - Click "Update Tenant"
+
+4. **See the result:**
+   - Go to `http://localhost:4200/`
+   - Hero section shows your image as background! 🎉
+
+---
+
+## 🎯 Application Features
+
+### Home Page (`/`)
+- Dynamic tenant name and description
+- Hero background from tenant image
+- Tenant-specific services displayed
+- Contact information
+- Smooth scrolling navigation
+
+### Admin Pages
+- **`/admin/tenants`** - Manage tenants
+  - Create, edit, delete tenants
+  - Upload tenant logos/images
+  - Toggle active/inactive status
+  
+- **`/admin/{tenantId}/services`** - Manage services
+  - Create, edit, delete services
+  - Set pricing and duration
+  - Toggle active/inactive status
+
+---
+
+## 📊 Sample Data Included
+
+### Christelle's Hair Salon
+
+**10 Services:**
+1. Haircut - Women (60 min, R250)
+2. Haircut - Men (30 min, R150)
+3. Hair Coloring (120 min, R600)
+4. Highlights (90 min, R450)
+5. Blow Dry (45 min, R200)
+6. Hair Treatment (45 min, R300)
+7. Updo (90 min, R400)
+8. Balayage (150 min, R800)
+9. Keratin Treatment (180 min, R1200)
+10. Hair Extensions (240 min, R2500)
+
+---
+
+## 🎨 How It Works
+
+### Default Tenant
+The home page automatically loads Christelle's salon (slug: `christelles-salon`)
+
+### Hero Background
+- Loads tenant's `image_url` as background
+- Applies gradient overlay for text readability
+- Falls back to purple gradient if no image
+- Fully responsive
+
+### Multi-Tenant
+- Each tenant has their own services
+- Services are filtered by tenant
+- Tenants can have custom logos
+- Easy to add more tenants
+
+---
+
+## 🐛 Troubleshooting
+
+### Database errors
+
+**Fix:** Run `supabase/FRESH_DATABASE_SETUP.sql` in Supabase SQL Editor
+
+### Hero background not showing
+
+**Check:**
+1. Tenant has `image_url` set (upload image via admin)
+2. Image URL is accessible
+3. Browser console for errors
+
+### Services not loading
+
+**Check:**
+1. Tenant exists with slug 'christelles-salon'
+2. Services have correct tenant_id
+3. Services are marked as active
+
+### Port already in use
+
 ```bash
-cd hair-salon-app
-npm start
+# Kill process on port 4200
+npx kill-port 4200
 ```
 
-Then open http://localhost:4200 in your browser.
+---
 
 ## 📁 Project Structure
 
@@ -41,126 +151,80 @@ hair-salon-app/
 │   ├── app/
 │   │   ├── core/
 │   │   │   ├── models/
-│   │   │   │   └── service.model.ts      # Service data model
+│   │   │   │   ├── tenant.model.ts
+│   │   │   │   └── service.model.ts
 │   │   │   └── services/
-│   │   │       └── service.service.ts    # Mock service data
-│   │   ├── pages/
-│   │   │   └── home/                     # Home page component
-│   │   ├── app.ts                        # Main app component
-│   │   ├── app.routes.ts                 # Routing config
-│   │   └── app.config.ts                 # App configuration
-│   ├── environments/
-│   │   └── environment.ts                # Environment variables
-│   └── styles.scss                       # Global styles
+│   │   │       ├── tenant.service.ts
+│   │   │       ├── service.service.ts
+│   │   │       └── supabase.service.ts
+│   │   └── pages/
+│   │       ├── home/
+│   │       └── admin/
+│   │           ├── tenants/
+│   │           └── admin.component.ts (services)
+│   └── environments/
+│       ├── environment.ts
+│       └── environment.prod.ts
+├── supabase/
+│   ├── FRESH_DATABASE_SETUP.sql  ← Run this!
+│   └── README.md
 └── package.json
 ```
 
-## 🔧 Current Setup
+---
 
-### Mock Data
-Services are currently **hardcoded** in `src/app/core/services/service.service.ts`. This means:
-- ✅ No database setup required
-- ✅ Works immediately
-- ✅ Easy to test and develop
-- ⚠️ Changes to services require code edits
+## 🎯 Next Steps
 
-### No SSR
-This version does **NOT** have Server-Side Rendering:
-- ✅ Simpler to work with
-- ✅ Faster development
-- ✅ Easier debugging
-- ✅ Can add SSR later if needed
+### 1. Customize Christelle's Salon
+- Update description
+- Add contact information
+- Upload logo/image
+- Adjust services and pricing
 
-## 🚀 Next Steps
+### 2. Add More Tenants
+- Go to `/admin/tenants`
+- Click "Add New Tenant"
+- Each tenant gets their own services
 
-### Option 1: Add More Pages
-Create additional pages for:
-1. **Services Page** - Full list with filtering
-2. **Booking Page** - Calendar and time selection
-3. **Login/Register** - User authentication
-4. **Admin Dashboard** - Manage bookings and services
+### 3. Deploy to Production
+- See `DEPLOYMENT.md`
+- Recommended: Vercel
+- 5 minutes to deploy
+- Free tier available
 
-### Option 2: Connect to Database
-Replace mock data with Supabase:
-1. Create Supabase account
-2. Set up database
-3. Update `service.service.ts` to fetch from Supabase
-4. Add authentication
+### 4. Add Authentication (Optional)
+- Secure admin pages
+- User-tenant relationships
+- Role-based access
 
-### Option 3: Add Features
-- SMS/WhatsApp notifications
-- Email confirmations
-- Payment integration
-- Calendar sync
-- Reviews and ratings
+---
 
-## 📝 Editing Services
+## 📖 Documentation
 
-To change the services displayed, edit:
-**`src/app/core/services/service.service.ts`**
+- **Database Setup:** `supabase/README.md`
+- **Multi-Tenant Guide:** `MULTI_TENANT_GUIDE.md`
+- **Tenant Architecture:** `TENANT_ARCHITECTURE.md`
+- **Image Upload Guide:** `IMAGE_UPLOAD_GUIDE.md`
+- **Deployment Guide:** `DEPLOYMENT.md`
 
-```typescript
-private mockServices: Service[] = [
-  {
-    id: '1',
-    name: 'Your Service Name',
-    description: 'Service description',
-    duration: 60,  // minutes
-    price: 250,    // ZAR
-    isActive: true
-  },
-  // Add more services...
-];
-```
+---
 
-## 🎨 Customizing Design
+## 🎉 Summary
 
-### Colors
-Edit the hero gradient in `src/app/pages/home/home.component.scss`:
-```scss
-.hero {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-```
+**To get started:**
+1. ✅ Run `supabase/FRESH_DATABASE_SETUP.sql` in Supabase
+2. ✅ Start the app: `npm start`
+3. ✅ Upload an image for Christelle's salon
+4. ✅ View the home page with hero background
 
-### Contact Information
-Edit `src/app/pages/home/home.component.html`:
-```html
-<p>Phone: +27 XX XXX XXXX</p>
-<p>Email: info@christellehair.co.za</p>
-```
+**That's it!** 🚀
 
-### Working Hours
-Edit the hours section in the same file.
+Your multi-tenant hair salon app is ready with:
+- ✅ Clean database schema
+- ✅ Sample data
+- ✅ Image upload
+- ✅ Beautiful UI
+- ✅ Ready to customize
 
-## 🐛 Troubleshooting
-
-### Port Already in Use
-If you see "Port 4200 is already in use":
-```bash
-# Kill the process and restart
-Ctrl+C
-npm start
-```
-
-### Changes Not Showing
-The app has **hot reload** enabled. Just save your files and the browser will auto-refresh.
-
-### Build Errors
-If you see compilation errors:
-1. Check the terminal for specific error messages
-2. Make sure all imports are correct
-3. Restart the dev server
-
-## 📚 Learn More
-
-- **Angular Docs**: https://angular.dev
-- **Angular Components**: https://material.angular.io
-- **TypeScript**: https://www.typescriptlang.org
-
-## 🎉 You're All Set!
-
-Your app is running and displaying services. The navigation works with smooth scrolling to different sections of the page.
-
-**What would you like to build next?**
+Enjoy! 🎉
 

@@ -19,6 +19,7 @@
     <table class="tenants-table">
       <thead>
         <tr>
+          <th>Logo</th>
           <th>Name</th>
           <th>Slug</th>
           <th>Email</th>
@@ -29,6 +30,10 @@
       </thead>
       <tbody>
         <tr *ngFor="let tenant of tenants" [class.inactive]="!tenant.isActive">
+          <td class="tenant-logo">
+            <img *ngIf="tenant.imageUrl" [src]="tenant.imageUrl" [alt]="tenant.name" class="tenant-logo-img">
+            <span *ngIf="!tenant.imageUrl" class="no-logo">📷</span>
+          </td>
           <td class="tenant-name">{{ tenant.name }}</td>
           <td class="tenant-slug">{{ tenant.slug }}</td>
           <td>{{ tenant.email || '-' }}</td>
@@ -100,13 +105,43 @@
 
         <div class="form-group">
           <label for="description">Description</label>
-          <textarea 
-            id="description" 
-            [(ngModel)]="tenantForm.description" 
+          <textarea
+            id="description"
+            [(ngModel)]="tenantForm.description"
             name="description"
             rows="3"
             placeholder="Brief description of the tenant"
           ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="image">Logo / Image</label>
+
+          <!-- Image Preview -->
+          <div class="image-upload-container">
+            <div *ngIf="imagePreview" class="image-preview">
+              <img [src]="imagePreview" alt="Preview">
+              <button type="button" class="btn-remove-image" (click)="removeImage()" title="Remove image">
+                ✕
+              </button>
+            </div>
+
+            <!-- Upload Button -->
+            <div class="upload-area" *ngIf="!imagePreview">
+              <input
+                type="file"
+                id="image"
+                accept="image/*"
+                (change)="onFileSelected($event)"
+                #fileInput
+                style="display: none"
+              >
+              <button type="button" class="btn-upload" (click)="fileInput.click()">
+                📷 Choose Image
+              </button>
+              <p class="upload-hint">PNG, JPG, GIF up to 5MB</p>
+            </div>
+          </div>
         </div>
 
         <div class="form-row">
@@ -156,11 +191,12 @@
         </div>
 
         <div class="form-actions">
-          <button type="button" class="btn btn-secondary" (click)="closeForm()">
+          <button type="button" class="btn btn-secondary" (click)="closeForm()" [disabled]="uploading">
             Cancel
           </button>
-          <button type="submit" class="btn btn-primary">
-            {{ editingTenant ? 'Update Tenant' : 'Create Tenant' }}
+          <button type="submit" class="btn btn-primary" [disabled]="uploading">
+            <span *ngIf="!uploading">{{ editingTenant ? 'Update Tenant' : 'Create Tenant' }}</span>
+            <span *ngIf="uploading">⏳ Uploading...</span>
           </button>
         </div>
       </form>

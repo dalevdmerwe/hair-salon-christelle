@@ -3,6 +3,29 @@
 // Reuse all styles from admin.component.scss
 // Add tenant-specific styles here if needed
 
+.tenant-logo {
+  width: 60px;
+
+  .tenant-logo-img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .no-logo {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    background: #f0f0f0;
+    border-radius: 8px;
+    font-size: 1.5rem;
+  }
+}
+
 .tenant-slug {
   font-family: 'Courier New', monospace;
   color: #667eea;
@@ -20,5 +43,86 @@
   margin-top: 0.25rem;
   font-size: 0.85rem;
   color: #6c757d;
+}
+
+// Image upload styles
+.image-upload-container {
+  margin-top: 0.5rem;
+}
+
+.image-preview {
+  position: relative;
+  display: inline-block;
+  max-width: 300px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .btn-remove-image {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(255, 0, 0, 0.8);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+
+    &:hover {
+      background: rgba(255, 0, 0, 1);
+      transform: scale(1.1);
+    }
+  }
+}
+
+.upload-area {
+  text-align: center;
+  padding: 2rem;
+  border: 2px dashed #dee2e6;
+  border-radius: 8px;
+  background: #f8f9fa;
+  transition: all 0.3s;
+
+  &:hover {
+    border-color: #667eea;
+    background: #f0f2ff;
+  }
+
+  .btn-upload {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+
+    &:hover {
+      background: #5568d3;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+    }
+  }
+
+  .upload-hint {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: #6c757d;
+  }
 }
 

@@ -1,13 +1,14 @@
 <div class="home-container">
   <nav class="top-nav">
-    <a href="/" class="logo">Christelle's Hair Salon</a>
+    <a href="/" class="logo">{{ tenant?.name || 'Hair Salon' }}</a>
     <a href="/admin/tenants" class="admin-link">🔧 Admin</a>
   </nav>
 
-  <header class="hero">
+  <header class="hero" [style.background-image]="heroBackgroundUrl ? 'url(' + heroBackgroundUrl + ')' : null">
+    <div class="hero-overlay"></div>
     <div class="hero-content">
-      <h1>Christelle's Hair Salon</h1>
-      <p class="tagline">Professional Hair Care in South Africa</p>
+      <h1>{{ tenant?.name || 'Hair Salon' }}</h1>
+      <p class="tagline">{{ tenant?.description || 'Professional Hair Care in South Africa' }}</p>
       <div class="cta-buttons">
         <a href="#services" class="btn btn-primary">View Services</a>
         <a href="#contact" class="btn btn-secondary">Contact Us</a>
@@ -77,10 +78,11 @@
           <p>Saturday: 9:00 AM - 1:00 PM</p>
           <p>Sunday: Closed</p>
         </div>
-        <div class="info-item">
+        <div class="info-item" *ngIf="tenant">
           <strong>Contact:</strong>
-          <p>Phone: +27 XX XXX XXXX</p>
-          <p>Email: info@christellehair.co.za</p>
+          <p *ngIf="tenant.phone">Phone: {{ tenant.phone }}</p>
+          <p *ngIf="tenant.email">Email: {{ tenant.email }}</p>
+          <p *ngIf="tenant.address">{{ tenant.address }}</p>
         </div>
       </div>
     </div>
