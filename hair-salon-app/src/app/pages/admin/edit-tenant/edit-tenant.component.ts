@@ -181,7 +181,7 @@ export class EditTenantComponent implements OnInit {
         next: () => {
           this.uploading = false;
           alert('Tenant updated successfully!');
-          this.router.navigate(['/admin/tenants']);
+          this.router.navigate(['/admin', this.tenantId]);
         },
         error: (err) => {
           console.error('Error updating tenant:', err);
@@ -197,7 +197,7 @@ export class EditTenantComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['/admin/{{tenant.id}}']);
+    this.router.navigate(['/admin', this.tenantId]);
   }
 
   initAddressAutocomplete() {
