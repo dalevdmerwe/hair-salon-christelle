@@ -168,12 +168,30 @@ h2 {
   padding: 2rem;
   border-radius: 12px;
   background: #f8f9fa;
-  transition: transform 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+  position: relative;
 }
 
 .feature-card:hover, .service-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.2);
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+}
+
+.book-now-hint {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e0e0e0;
+  color: #667eea;
+  font-weight: 600;
+  font-size: 0.9rem;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.service-card:hover .book-now-hint {
+  opacity: 1;
 }
 
 .icon {
@@ -212,6 +230,11 @@ h2 {
 
 .services-preview {
   background: #f8f9fa;
+}
+
+.booking {
+  padding: 4rem 2rem;
+  background: #f3f4f6;
 }
 
 .contact {

@@ -106,6 +106,7 @@ export class TenantService {
       phone: tenant.phone,
       address: tenant.address,
       image_url: tenant.imageUrl,
+      business_hours: tenant.businessHours ? JSON.stringify(tenant.businessHours) : null,
       is_active: tenant.isActive ?? true
     };
 
@@ -140,6 +141,7 @@ export class TenantService {
     if (updates.phone !== undefined) dbData.phone = updates.phone;
     if (updates.address !== undefined) dbData.address = updates.address;
     if (updates.imageUrl !== undefined) dbData.image_url = updates.imageUrl;
+    if (updates.businessHours !== undefined) dbData.business_hours = updates.businessHours ? JSON.stringify(updates.businessHours) : null;
     if (updates.isActive !== undefined) dbData.is_active = updates.isActive;
 
     return from(
@@ -186,6 +188,17 @@ export class TenantService {
 
   // Map database row to Tenant model
   private mapToTenant(data: any): Tenant {
+    let businessHours = null;
+    if (data.business_hours) {
+      try {
+        businessHours = typeof data.business_hours === 'string'
+          ? JSON.parse(data.business_hours)
+          : data.business_hours;
+      } catch (e) {
+        console.error('Error parsing business hours:', e);
+      }
+    }
+
     return {
       id: data.id,
       name: data.name,
@@ -195,6 +208,7 @@ export class TenantService {
       phone: data.phone,
       address: data.address,
       imageUrl: data.image_url,
+      businessHours: businessHours,
       isActive: data.is_active,
       createdAt: data.created_at ? new Date(data.created_at) : undefined,
       updatedAt: data.updated_at ? new Date(data.updated_at) : undefined

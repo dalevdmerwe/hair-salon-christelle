@@ -1,0 +1,269 @@
+<div class="bookings-container">
+  <div class="header">
+    <div class="breadcrumb">
+      <a href="/admin/tenants">← Back to Tenants</a>
+      <span *ngIf="tenant"> / {{ tenant.name }} / Bookings</span>
+    </div>
+    <h1>📅 Bookings Management</h1>
+    <p class="subtitle" *ngIf="tenant">{{ tenant.name }}</p>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon">📊</div>
+      <div class="stat-info">
+        <div class="stat-value">{{ stats.total }}</div>
+        <div class="stat-label">Total Bookings</div>
+      </div>
+    </div>
+
+    <div class="stat-card pending">
+      <div class="stat-icon">⏳</div>
+      <div class="stat-info">
+        <div class="stat-value">{{ stats.pending }}</div>
+        <div class="stat-label">Pending</div>
+      </div>
+    </div>
+
+    <div class="stat-card confirmed">
+      <div class="stat-icon">✅</div>
+      <div class="stat-info">
+        <div class="stat-value">{{ stats.confirmed }}</div>
+        <div class="stat-label">Confirmed</div>
+      </div>
+    </div>
+
+    <div class="stat-card today">
+      <div class="stat-icon">📅</div>
+      <div class="stat-info">
+        <div class="stat-value">{{ stats.today }}</div>
+        <div class="stat-label">Today</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters">
+    <div class="filter-group">
+      <label for="search">🔍 Search</label>
+      <input 
+        type="text" 
+        id="search" 
+        placeholder="Search by name, phone, email..."
+        (input)="onSearchChange($event)"
+      >
+    </div>
+
+    <div class="filter-group">
+      <label for="status">Status</label>
+      <select id="status" (change)="onStatusFilterChange($event)">
+        <option value="all">All Statuses</option>
+        <option value="pending">Pending</option>
+        <option value="confirmed">Confirmed</option>
+        <option value="completed">Completed</option>
+        <option value="cancelled">Cancelled</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="date">Date</label>
+      <input 
+        type="date" 
+        id="date" 
+        (change)="onDateFilterChange($event)"
+      >
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading">
+    <p>Loading bookings...</p>
+  </div>
+
+  <!-- Today's Bookings -->
+  <div *ngIf="!loading && todayBookings.length > 0" class="section">
+    <h2>🌟 Today's Appointments</h2>
+    <div class="bookings-list">
+      <div *ngFor="let booking of todayBookings" class="booking-card today-booking">
+        <div class="booking-header">
+          <div class="customer-info">
+            <h3>{{ booking.customerName }}</h3>
+            <span class="badge" [ngClass]="getStatusClass(booking.status)">
+              {{ booking.status }}
+            </span>
+          </div>
+          <div class="booking-time">
+            <span class="time">⏰ {{ booking.bookingTime }}</span>
+          </div>
+        </div>
+
+        <div class="booking-details">
+          <div class="detail-row">
+            <span class="icon">💇</span>
+            <span>{{ booking.serviceName }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="icon">⏱️</span>
+            <span>{{ booking.serviceDuration }} minutes</span>
+          </div>
+          <div class="detail-row">
+            <span class="icon">💰</span>
+            <span>R{{ booking.servicePrice }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="icon">📱</span>
+            <span>{{ booking.customerPhone }}</span>
+          </div>
+          <div *ngIf="booking.customerEmail" class="detail-row">
+            <span class="icon">📧</span>
+            <span>{{ booking.customerEmail }}</span>
+          </div>
+          <div *ngIf="booking.notes" class="detail-row notes">
+            <span class="icon">📝</span>
+            <span>{{ booking.notes }}</span>
+          </div>
+        </div>
+
+        <div class="booking-actions">
+          <button *ngIf="booking.status === 'pending'" class="btn-confirm" (click)="confirmBooking(booking)">
+            ✅ Confirm
+          </button>
+          <button *ngIf="booking.status === 'confirmed'" class="btn-complete" (click)="completeBooking(booking)">
+            ✔️ Complete
+          </button>
+          <button class="btn-whatsapp" (click)="whatsappCustomer(booking.customerPhone)">
+            💬 WhatsApp
+          </button>
+          <button class="btn-call" (click)="callCustomer(booking.customerPhone)">
+            📞 Call
+          </button>
+          <button *ngIf="booking.status !== 'cancelled'" class="btn-cancel" (click)="cancelBooking(booking)">
+            ❌ Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upcoming Bookings -->
+  <div *ngIf="!loading && upcomingBookings.length > 0" class="section">
+    <h2>📆 Upcoming Appointments</h2>
+    <div class="bookings-list">
+      <div *ngFor="let booking of upcomingBookings" class="booking-card">
+        <div class="booking-header">
+          <div class="customer-info">
+            <h3>{{ booking.customerName }}</h3>
+            <span class="badge" [ngClass]="getStatusClass(booking.status)">
+              {{ booking.status }}
+            </span>
+          </div>
+          <div class="booking-date">
+            <span class="date">📅 {{ formatDate(booking.bookingDate) }}</span>
+            <span class="time">⏰ {{ booking.bookingTime }}</span>
+          </div>
+        </div>
+
+        <div class="booking-details">
+          <div class="detail-row">
+            <span class="icon">💇</span>
+            <span>{{ booking.serviceName }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="icon">⏱️</span>
+            <span>{{ booking.serviceDuration }} minutes</span>
+          </div>
+          <div class="detail-row">
+            <span class="icon">💰</span>
+            <span>R{{ booking.servicePrice }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="icon">📱</span>
+            <span>{{ booking.customerPhone }}</span>
+          </div>
+          <div *ngIf="booking.customerEmail" class="detail-row">
+            <span class="icon">📧</span>
+            <span>{{ booking.customerEmail }}</span>
+          </div>
+          <div *ngIf="booking.notes" class="detail-row notes">
+            <span class="icon">📝</span>
+            <span>{{ booking.notes }}</span>
+          </div>
+        </div>
+
+        <div class="booking-actions">
+          <button *ngIf="booking.status === 'pending'" class="btn-confirm" (click)="confirmBooking(booking)">
+            ✅ Confirm
+          </button>
+          <button class="btn-reminder" (click)="sendReminder(booking)">
+            🔔 Send Reminder
+          </button>
+          <button class="btn-whatsapp" (click)="whatsappCustomer(booking.customerPhone)">
+            💬 WhatsApp
+          </button>
+          <button class="btn-call" (click)="callCustomer(booking.customerPhone)">
+            📞 Call
+          </button>
+          <button *ngIf="booking.status !== 'cancelled'" class="btn-cancel" (click)="cancelBooking(booking)">
+            ❌ Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Past Bookings -->
+  <div *ngIf="!loading && pastBookings.length > 0" class="section">
+    <h2>📜 Past Appointments</h2>
+    <div class="bookings-list">
+      <div *ngFor="let booking of pastBookings" class="booking-card past-booking">
+        <div class="booking-header">
+          <div class="customer-info">
+            <h3>{{ booking.customerName }}</h3>
+            <span class="badge" [ngClass]="getStatusClass(booking.status)">
+              {{ booking.status }}
+            </span>
+          </div>
+          <div class="booking-date">
+            <span class="date">📅 {{ formatDate(booking.bookingDate) }}</span>
+            <span class="time">⏰ {{ booking.bookingTime }}</span>
+          </div>
+        </div>
+
+        <div class="booking-details">
+          <div class="detail-row">
+            <span class="icon">💇</span>
+            <span>{{ booking.serviceName }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="icon">💰</span>
+            <span>R{{ booking.servicePrice }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="icon">📱</span>
+            <span>{{ booking.customerPhone }}</span>
+          </div>
+        </div>
+
+        <div class="booking-actions">
+          <button class="btn-whatsapp" (click)="whatsappCustomer(booking.customerPhone)">
+            💬 WhatsApp
+          </button>
+          <button class="btn-delete" (click)="deleteBooking(booking)">
+            🗑️ Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Bookings -->
+  <div *ngIf="!loading && filteredBookings.length === 0" class="no-bookings">
+    <div class="empty-state">
+      <div class="empty-icon">📅</div>
+      <h3>No bookings found</h3>
+      <p>No bookings match your current filters.</p>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,180 @@
+<div class="booking-form-container">
+  <h2>Book an Appointment</h2>
+  
+  <div *ngIf="showSuccess" class="success-message">
+    <div class="success-icon">✅</div>
+    <h3>Booking Confirmed!</h3>
+    <p>We'll send you a WhatsApp confirmation shortly.</p>
+  </div>
+
+  <form *ngIf="!showSuccess" (ngSubmit)="submitBooking()" #bookingFormElement="ngForm">
+    
+    <!-- Service Selection -->
+    <div class="form-group">
+      <label for="service">Select Service *</label>
+      <select 
+        id="service" 
+        [(ngModel)]="bookingForm.serviceId" 
+        name="service"
+        (change)="onServiceChange()"
+        required
+      >
+        <option value="">Choose a service...</option>
+        <option *ngFor="let service of services" [value]="service.id">
+          {{ service.name }} - R{{ service.price }} ({{ service.duration }} min)
+        </option>
+      </select>
+    </div>
+
+    <!-- Service Details -->
+    <div *ngIf="selectedService" class="service-details">
+      <div class="detail-item">
+        <span class="icon">💇</span>
+        <span class="label">Service:</span>
+        <span class="value">{{ selectedService.name }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="icon">⏱️</span>
+        <span class="label">Duration:</span>
+        <span class="value">{{ selectedService.duration }} minutes</span>
+      </div>
+      <div class="detail-item">
+        <span class="icon">💰</span>
+        <span class="label">Price:</span>
+        <span class="value">R{{ selectedService.price }}</span>
+      </div>
+    </div>
+
+    <!-- Customer Name -->
+    <div class="form-group">
+      <label for="customerName">Your Name *</label>
+      <input 
+        type="text" 
+        id="customerName" 
+        [(ngModel)]="bookingForm.customerName" 
+        name="customerName"
+        placeholder="Enter your full name"
+        required
+      >
+    </div>
+
+    <!-- Customer Phone -->
+    <div class="form-group">
+      <label for="customerPhone">Phone Number *</label>
+      <input 
+        type="tel" 
+        id="customerPhone" 
+        [(ngModel)]="bookingForm.customerPhone" 
+        name="customerPhone"
+        placeholder="+27 82 123 4567"
+        required
+      >
+      <small>We'll send you a WhatsApp confirmation</small>
+    </div>
+
+    <!-- Customer Email (Optional) -->
+    <div class="form-group">
+      <label for="customerEmail">Email (Optional)</label>
+      <input 
+        type="email" 
+        id="customerEmail" 
+        [(ngModel)]="bookingForm.customerEmail" 
+        name="customerEmail"
+        placeholder="your@email.com"
+      >
+    </div>
+
+    <!-- Date Selection -->
+    <div class="form-row">
+      <div class="form-group">
+        <label for="bookingDate">Date *</label>
+        <input
+          type="date"
+          id="bookingDate"
+          [(ngModel)]="bookingForm.bookingDate"
+          name="bookingDate"
+          [min]="minDate"
+          [max]="maxDate"
+          (change)="onDateChange()"
+          required
+        >
+      </div>
+
+      <!-- Time Selection -->
+      <div class="form-group full-width">
+        <label for="bookingTime">Time *</label>
+
+        <div *ngIf="loadingTimeSlots" class="loading-slots">
+          <p>⏳ Checking available times...</p>
+        </div>
+
+        <div *ngIf="!loadingTimeSlots && bookingForm.serviceId && bookingForm.bookingDate" class="time-slots-grid">
+          <button
+            type="button"
+            *ngFor="let slot of timeSlots"
+            class="time-slot-btn"
+            [class.selected]="bookingForm.bookingTime === slot.time"
+            [class.unavailable]="!slot.available"
+            [disabled]="!slot.available"
+            (click)="selectTimeSlot(slot.time)"
+          >
+            <span class="time">{{ slot.time }}</span>
+            <span *ngIf="!slot.available" class="status">Booked</span>
+            <span *ngIf="slot.available && bookingForm.bookingTime === slot.time" class="status">Selected</span>
+          </button>
+        </div>
+
+        <select
+          id="bookingTime"
+          [(ngModel)]="bookingForm.bookingTime"
+          name="bookingTime"
+          style="display: none;"
+          required
+        >
+          <option value="">Select time...</option>
+          <option *ngFor="let slot of timeSlots" [value]="slot.time">
+            {{ slot.time }}
+          </option>
+        </select>
+
+        <small *ngIf="!bookingForm.serviceId || !bookingForm.bookingDate" class="hint-text">
+          Please select a service and date first
+        </small>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="form-group">
+      <label for="notes">Special Requests (Optional)</label>
+      <textarea 
+        id="notes" 
+        [(ngModel)]="bookingForm.notes" 
+        name="notes"
+        rows="3"
+        placeholder="Any special requests or notes..."
+      ></textarea>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Submit Button -->
+    <div class="form-actions">
+      <button 
+        type="submit" 
+        class="btn-primary" 
+        [disabled]="submitting || !bookingFormElement.form.valid"
+      >
+        <span *ngIf="!submitting">📅 Book Appointment</span>
+        <span *ngIf="submitting">⏳ Booking...</span>
+      </button>
+    </div>
+
+    <p class="form-note">
+      * Required fields. You'll receive a WhatsApp confirmation after booking.
+    </p>
+  </form>
+</div>
+

@@ -32,6 +32,15 @@ export class TenantsComponent implements OnInit {
     phone: '',
     address: '',
     imageUrl: '',
+    businessHours: {
+      monday: '',
+      tuesday: '',
+      wednesday: '',
+      thursday: '',
+      friday: '',
+      saturday: '',
+      sunday: ''
+    },
     isActive: true
   };
 
@@ -78,6 +87,15 @@ export class TenantsComponent implements OnInit {
       phone: '',
       address: '',
       imageUrl: '',
+      businessHours: {
+        monday: '',
+        tuesday: '',
+        wednesday: '',
+        thursday: '',
+        friday: '',
+        saturday: '',
+        sunday: ''
+      },
       isActive: true
     };
     this.selectedFile = null;
@@ -96,6 +114,15 @@ export class TenantsComponent implements OnInit {
       phone: tenant.phone || '',
       address: tenant.address || '',
       imageUrl: tenant.imageUrl || '',
+      businessHours: {
+        monday: tenant.businessHours?.monday || '',
+        tuesday: tenant.businessHours?.tuesday || '',
+        wednesday: tenant.businessHours?.wednesday || '',
+        thursday: tenant.businessHours?.thursday || '',
+        friday: tenant.businessHours?.friday || '',
+        saturday: tenant.businessHours?.saturday || '',
+        sunday: tenant.businessHours?.sunday || ''
+      },
       isActive: tenant.isActive
     };
     this.selectedFile = null;
@@ -186,6 +213,7 @@ export class TenantsComponent implements OnInit {
         phone: this.tenantForm.phone || null,
         address: this.tenantForm.address || null,
         imageUrl: imageUrl || null,
+        businessHours: this.tenantForm.businessHours,
         isActive: this.tenantForm.isActive
       };
 
@@ -255,6 +283,10 @@ export class TenantsComponent implements OnInit {
 
   goToServices(tenant: Tenant) {
     this.router.navigate(['/admin', tenant.id, 'services']);
+  }
+
+  goToBookings(tenant: Tenant) {
+    this.router.navigate(['/admin', tenant.id, 'bookings']);
   }
 }
 

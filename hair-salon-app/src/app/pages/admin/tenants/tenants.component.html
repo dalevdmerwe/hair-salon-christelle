@@ -44,13 +44,16 @@
             </span>
           </td>
           <td class="actions">
+            <button class="btn-icon btn-bookings" (click)="goToBookings(tenant)" title="View Bookings">
+              📅
+            </button>
             <button class="btn-icon btn-services" (click)="goToServices(tenant)" title="Manage Services">
               📋
             </button>
             <button class="btn-icon btn-edit" (click)="openEditForm(tenant)" title="Edit">
               ✏️
             </button>
-            <button class="btn-icon btn-toggle" (click)="toggleActive(tenant)" 
+            <button class="btn-icon btn-toggle" (click)="toggleActive(tenant)"
                     [title]="tenant.isActive ? 'Deactivate' : 'Activate'">
               {{ tenant.isActive ? '👁️' : '🚫' }}
             </button>

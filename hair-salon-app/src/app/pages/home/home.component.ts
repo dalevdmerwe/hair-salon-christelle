@@ -4,11 +4,12 @@ import { ServiceService } from '../../core/services/service.service';
 import { TenantService } from '../../core/services/tenant.service';
 import { Service } from '../../core/models/service.model';
 import { Tenant } from '../../core/models/tenant.model';
+import { BookingFormComponent } from '../../components/booking-form/booking-form.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, BookingFormComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
@@ -20,6 +21,7 @@ export class HomeComponent implements OnInit {
   services: Service[] = [];
   loading = true;
   heroBackgroundUrl: string | null = null;
+  selectedServiceId: string | null = null;
 
   constructor(
     private serviceService: ServiceService,
@@ -60,6 +62,17 @@ export class HomeComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  selectService(serviceId: string) {
+    this.selectedServiceId = serviceId;
+    // Scroll to booking form
+    setTimeout(() => {
+      const bookingSection = document.getElementById('booking');
+      if (bookingSection) {
+        bookingSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
   }
 }
 

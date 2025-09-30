@@ -1,3 +1,13 @@
+export interface BusinessHours {
+  monday?: string;
+  tuesday?: string;
+  wednesday?: string;
+  thursday?: string;
+  friday?: string;
+  saturday?: string;
+  sunday?: string;
+}
+
 export interface Tenant {
   id: string;
   name: string;
@@ -7,6 +17,7 @@ export interface Tenant {
   phone: string | null;
   address: string | null;
   imageUrl: string | null; // Logo or profile image
+  businessHours: BusinessHours | null; // Operating hours
   isActive: boolean;
   createdAt?: Date;
   updatedAt?: Date;

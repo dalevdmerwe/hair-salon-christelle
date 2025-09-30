@@ -32,6 +32,12 @@
   font-weight: 600;
 }
 
+.btn-bookings {
+  &:hover {
+    background: #e3f2fd;
+  }
+}
+
 .btn-services {
   &:hover {
     background: #e8f5e9;
