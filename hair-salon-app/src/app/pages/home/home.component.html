@@ -1,0 +1,84 @@
+<div class="home-container">
+  <header class="hero">
+    <div class="hero-content">
+      <h1>Christelle's Hair Salon</h1>
+      <p class="tagline">Professional Hair Care in South Africa</p>
+      <div class="cta-buttons">
+        <a href="#services" class="btn btn-primary">View Services</a>
+        <a href="#contact" class="btn btn-secondary">Contact Us</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="features">
+    <div class="container">
+      <h2>Why Choose Us</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="icon">✂️</div>
+          <h3>Expert Stylists</h3>
+          <p>Professional hair care with years of experience</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">📱</div>
+          <h3>Easy Booking</h3>
+          <p>Book online anytime, get instant confirmation</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">💬</div>
+          <h3>SMS & WhatsApp</h3>
+          <p>Receive reminders via your preferred method</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">⭐</div>
+          <h3>Quality Service</h3>
+          <p>Premium products and personalized care</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services" class="services-preview">
+    <div class="container">
+      <h2>Our Services</h2>
+      <p class="section-subtitle">From cuts to color, we've got you covered</p>
+      
+      <div *ngIf="loading" class="loading">Loading services...</div>
+      
+      <div *ngIf="!loading && services.length > 0" class="services-grid">
+        <div *ngFor="let service of services" class="service-card">
+          <h3>{{ service.name }}</h3>
+          <p>{{ service.description }}</p>
+          <div class="service-details">
+            <span class="duration">⏱️ {{ service.duration }} min</span>
+            <span class="price">R{{ service.price }}</span>
+          </div>
+        </div>
+      </div>
+      
+      <div *ngIf="!loading && services.length === 0" class="no-services">
+        <p>No services available at the moment.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="container">
+      <h2>Visit Us</h2>
+      <div class="contact-info">
+        <div class="info-item">
+          <strong>Hours:</strong>
+          <p>Mon-Fri: 9:00 AM - 5:00 PM</p>
+          <p>Saturday: 9:00 AM - 1:00 PM</p>
+          <p>Sunday: Closed</p>
+        </div>
+        <div class="info-item">
+          <strong>Contact:</strong>
+          <p>Phone: +27 XX XXX XXXX</p>
+          <p>Email: info@christellehair.co.za</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+

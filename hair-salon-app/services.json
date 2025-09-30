@@ -1,0 +1,481 @@
+{
+  "categories": [
+    {
+      "name": "Featured",
+      "description": null,
+      "items": [
+        {
+          "name": "Blow wave",
+          "caption": "30 mins - 1 hr",
+          "description": null
+        },
+        {
+          "name": "Cut & Blowwave",
+          "caption": "30 mins - 45 mins",
+          "description": null
+        },
+        {
+          "name": "Gent Cut",
+          "caption": "30 mins",
+          "description": null
+        },
+        {
+          "name": "Cut only no Blow wave",
+          "caption": "30 mins",
+          "description": null
+        },
+        {
+          "name": "Boys",
+          "caption": "15 mins - 30 mins",
+          "description": null
+        },
+        {
+          "name": "Girls",
+          "caption": "20 mins - 30 mins",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Ladies Cut",
+      "description": null,
+      "items": [
+        {
+          "name": "Fringe cut",
+          "caption": "15 mins",
+          "description": null
+        },
+        {
+          "name": "Cut only no Blow wave",
+          "caption": "30 mins",
+          "description": null
+        },
+        {
+          "name": "Cut & Blowwave",
+          "caption": "30 mins - 45 mins",
+          "description": null
+        },
+        {
+          "name": "Student Cut with Blow wave",
+          "caption": "45 mins",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Gents",
+      "description": null,
+      "items": [
+        {
+          "name": "Gent Cut",
+          "caption": "30 mins",
+          "description": null
+        },
+        {
+          "name": "Straight Top & Cut",
+          "caption": "1 hr",
+          "description": null
+        },
+        {
+          "name": "Foil &. Cut",
+          "caption": "1 hr, 20 mins  •  2 services",
+          "description": null
+        },
+        {
+          "name": "Foil",
+          "caption": "50 mins - 1 hr",
+          "description": null
+        },
+        {
+          "name": "Style",
+          "caption": "30 mins",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Blow wave & Style",
+      "description": null,
+      "items": [
+        {
+          "name": "Blow wave",
+          "caption": "30 mins - 1 hr",
+          "description": null
+        },
+        {
+          "name": "Style",
+          "caption": "1 hr",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Blondes Foil with Cut",
+      "description": null,
+      "items": [
+        {
+          "name": "Ear lenght, ROOTS Full, Tone, Cut & Blow",
+          "caption": "2 hrs, 35 mins  •  3 services",
+          "description": null
+        },
+        {
+          "name": "Chin length ROOTS Full, Tone, Cut & Blow",
+          "caption": "2 hrs, 50 mins  •  3 services",
+          "description": null
+        },
+        {
+          "name": "Above Shoulder ROOTS, Full Foil, Cut & Blow",
+          "caption": "2 hrs, 50 mins  •  3 services",
+          "description": null
+        },
+        {
+          "name": "Below Shoulder, ROOTS, Full, Tone, Cut & Blow",
+          "caption": "2 hrs, 55 mins  •  3 services",
+          "description": null
+        },
+        {
+          "name": "Mid-Back, Tone, 1/2 Foil, Cut & Blow",
+          "caption": "3 hrs, 15 mins  •  3 services",
+          "description": null
+        },
+        {
+          "name": "up to Chin, ROOTS 1/2, Tone, Cut & Blow",
+          "caption": "2 hrs, 50 mins  •  3 services",
+          "description": null
+        },
+        {
+          "name": "Above Shoulder, ROOTS 1/2, Tone, Cut & Blow",
+          "caption": "2 hrs, 50 mins  •  3 services",
+          "description": null
+        },
+        {
+          "name": "Below Shoulder, ROOTS 1/2, Tone, Cut & Blow",
+          "caption": "2 hrs, 55 mins  •  3 services",
+          "description": null
+        },
+        {
+          "name": "Mid-Back ROOTS 1/2 Foil, Cut & Blow",
+          "caption": "3 hrs  •  3 services",
+          "description": null
+        },
+        {
+          "name": "Above Shoulder,Tone, Full Foil, Cut & Blow",
+          "caption": "2 hrs, 35 mins  •  3 services",
+          "description": null
+        },
+        {
+          "name": "Below Shoulder, Tone, Full Foil, Cut & Blow",
+          "caption": "3 hrs, 10 mins  •  3 services",
+          "description": null
+        },
+        {
+          "name": "Mid-back Tone, Full Foil, Cut & Blow",
+          "caption": "3 hrs, 15 mins  •  3 services",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Blondes Foil with Blowwave",
+      "description": null,
+      "items": [
+        {
+          "name": "up to Ear, ROOTS, Full Foil, Tone & Blow",
+          "caption": "2 hrs, 35 mins  •  3 services",
+          "description": null
+        },
+        {
+          "name": "Below Shoulder, ROOTS, Full Foil, Tone & Blow",
+          "caption": "2 hrs, 55 mins  •  3 services",
+          "description": null
+        },
+        {
+          "name": "Mid-Back, ROOTS, Full Foil, Tone & Blow",
+          "caption": "3 hrs  •  3 services",
+          "description": null
+        },
+        {
+          "name": "up to Chin ROOTS 1/2 Foil, Tone & Blow",
+          "caption": "2 hrs, 35 mins  •  3 services",
+          "description": null
+        },
+        {
+          "name": "Above Shoulder, ROOTS 1/2 Foil, Tone & Blow",
+          "caption": "2 hrs, 45 mins  •  3 services",
+          "description": null
+        },
+        {
+          "name": "Mid-Back, Full Foil, Tone & Blow",
+          "caption": "3 hrs, 15 mins  •  3 services",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Color Package",
+      "description": null,
+      "items": [
+        {
+          "name": "Half Roots & Blow Short Hair",
+          "caption": "1 hr, 35 mins  •  2 services",
+          "description": null
+        },
+        {
+          "name": "up to Ear, Roots 4-6 & Blow",
+          "caption": "1 hr, 45 mins  •  2 services",
+          "description": null
+        },
+        {
+          "name": "up to Chin, Roots 4-6 & Blow",
+          "caption": "1 hr, 45 mins  •  2 services",
+          "description": null
+        },
+        {
+          "name": "Above Shoulder, Roots 4-6 & Blow",
+          "caption": "1 hr, 55 mins  •  2 services",
+          "description": null
+        },
+        {
+          "name": " Below Shoulder, Roots 4-6 & Blow",
+          "caption": "2 hrs  •  2 services",
+          "description": null
+        },
+        {
+          "name": "Mid Back Roots 4-6, Blow",
+          "caption": "2 hrs  •  2 services",
+          "description": null
+        },
+        {
+          "name": "up to Ear, Color & Blow",
+          "caption": "1 hr, 45 mins  •  2 services",
+          "description": null
+        },
+        {
+          "name": "Above Shoulder, Color & Blow",
+          "caption": "1 hr, 55 mins  •  2 services",
+          "description": null
+        },
+        {
+          "name": "Below Shoulder, Color & Blow",
+          "caption": "2 hrs  •  2 services",
+          "description": null
+        },
+        {
+          "name": "Mid-Back Color & Blow",
+          "caption": "2 hrs  •  2 services",
+          "description": null
+        },
+        {
+          "name": "Roots 8weeks, Mid-Back, Cut & Blow",
+          "caption": "2 hrs  •  2 services",
+          "description": null
+        },
+        {
+          "name": "Roots 8 weeks Below Shoulder, Cut & Blow",
+          "caption": "2 hrs  •  2 services",
+          "description": null
+        },
+        {
+          "name": "Roots up to Ear length Hair Cut & Blow",
+          "caption": "1 hr, 45 mins  •  2 services",
+          "description": null
+        },
+        {
+          "name": "Roots up to Chin length Hair Cut & Blow",
+          "caption": "2 hrs  •  2 services",
+          "description": null
+        },
+        {
+          "name": "Roots Above Shoulder length Hair Cut & Blow",
+          "caption": "2 hrs  •  2 services",
+          "description": null
+        },
+        {
+          "name": "Roots Below Shoulder length Hair, Cut & Blow",
+          "caption": "2 hrs  •  2 services",
+          "description": null
+        },
+        {
+          "name": "Color up to Ear length hair, Cut & Blow",
+          "caption": "1 hr, 45 mins  •  2 services",
+          "description": null
+        },
+        {
+          "name": "Color Above Shoulder length Hair, Cut & Blow",
+          "caption": "2 hrs  •  2 services",
+          "description": null
+        },
+        {
+          "name": "Color Below Shoulder length Hair, Cut & Blow",
+          "caption": "2 hrs  •  2 services",
+          "description": null
+        },
+        {
+          "name": "Color Mid-Back length Hair, Cut & Blow",
+          "caption": "2 hrs  •  2 services",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Chemical treatment",
+      "description": null,
+      "items": [
+        {
+          "name": "Brazilian",
+          "caption": "2 hrs - 3 hrs",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Treatment",
+      "description": null,
+      "items": [
+        {
+          "name": "Koffietox",
+          "caption": "1 hr, 20 mins - 1 hr, 35 mins",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Kids",
+      "description": null,
+      "items": [
+        {
+          "name": "Boys",
+          "caption": "15 mins - 30 mins",
+          "description": null
+        },
+        {
+          "name": "Girls",
+          "caption": "20 mins - 30 mins",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Foil Packages",
+      "description": null,
+      "items": [
+        {
+          "name": "up to Ear length Foil, Cut & Blow",
+          "caption": "2 hrs  •  2 services",
+          "description": null
+        },
+        {
+          "name": "up to Chin length Foil, Cut & Blow",
+          "caption": "2 hrs, 15 mins  •  2 services",
+          "description": null
+        },
+        {
+          "name": "Above Shoulder Foil, Cut & Blow",
+          "caption": "2 hrs  •  2 services",
+          "description": "Hair up to shoulder length, full head of foils."
+        },
+        {
+          "name": "Below Shoulder Foil, Cut & Blow",
+          "caption": "2 hrs, 30 mins  •  2 services",
+          "description": null
+        },
+        {
+          "name": "Mid-Back Foil, Cut & Blow",
+          "caption": "2 hrs, 30 mins  •  2 services",
+          "description": null
+        },
+        {
+          "name": "up to Ear, Half Foil, Cut & Blow",
+          "caption": "2 hrs  •  2 services",
+          "description": null
+        },
+        {
+          "name": "up to Chin, Half Foil, Cut & Blow",
+          "caption": "2 hrs, 15 mins  •  2 services",
+          "description": null
+        },
+        {
+          "name": "Above Shoulder,Half Foil, Cut & Blow",
+          "caption": "2 hrs, 15 mins  •  2 services",
+          "description": null
+        },
+        {
+          "name": "Mid-Back, Half Foil, Cut & Blow",
+          "caption": "2 hrs, 30 mins  •  2 services",
+          "description": null
+        },
+        {
+          "name": "up to Ear, Flash, Cut & Blow",
+          "caption": "1 hr, 30 mins  •  2 services",
+          "description": null
+        },
+        {
+          "name": "Above Shoulder, Flash, Cut & Blow",
+          "caption": "1 hr, 50 mins  •  2 services",
+          "description": null
+        },
+        {
+          "name": "Below Shoulder, Flash, Cut & Blow",
+          "caption": "1 hr, 50 mins  •  2 services",
+          "description": null
+        }
+      ]
+    },
+    {
+      "name": "Color Combo",
+      "description": null,
+      "items": [
+        {
+          "name": "Below Shoulder length Hair Roots, Flash, Cut & Blow",
+          "caption": "2 hrs  •  2 services",
+          "description": null
+        },
+        {
+          "name": "Above Shoulder length Hair Roots, Flash, Cut & Blow",
+          "caption": "1 hr, 45 mins  •  2 services",
+          "description": null
+        },
+        {
+          "name": "Chin length Hair Roots, Flash, Cut & Blow",
+          "caption": "1 hr, 45 mins  •  2 services",
+          "description": null
+        },
+        {
+          "name": "Ear length hair Roots, Flash, Cut & Blow",
+          "caption": "1 hr, 30 mins  •  2 services",
+          "description": null
+        },
+        {
+          "name": "Above Shoulder length hair Color, half Foil, Cut & Blow",
+          "caption": "2 hrs  •  2 services",
+          "description": null
+        },
+        {
+          "name": "Mid-Back hair length Roots, Half Foil, Cut & Blow",
+          "caption": "2 hrs, 15 mins  •  2 services",
+          "description": null
+        },
+        {
+          "name": "Below Shoulder length hair Roots 1/2 Foil, Cut & Blow",
+          "caption": "2 hrs, 15 mins  •  2 services",
+          "description": null
+        },
+        {
+          "name": "Above Shoulder length hair, Color, Flash Cut & Blow",
+          "caption": "1 hr, 55 mins  •  2 services",
+          "description": null
+        },
+        {
+          "name": "up to Ear length hair Roots 1/2 Foil Cut & Blow",
+          "caption": "1 hr, 45 mins  •  2 services",
+          "description": null
+        },
+        {
+          "name": "Above Shoulder length hair Roots,1/2 foil,Cut & Blow",
+          "caption": "2 hrs, 15 mins  •  2 services",
+          "description": null
+        }
+      ]
+    }
+  ]
+}
