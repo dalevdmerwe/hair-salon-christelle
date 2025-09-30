@@ -1,0 +1,170 @@
+<div class="admin-container">
+  <header class="admin-header">
+    <h1>Tenant Management</h1>
+    <button class="btn btn-primary" (click)="openCreateForm()">
+      ➕ Add New Tenant
+    </button>
+  </header>
+
+  <div *ngIf="loading" class="loading">
+    <p>Loading tenants...</p>
+  </div>
+
+  <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+    <button class="btn btn-secondary" (click)="loadTenants()">Retry</button>
+  </div>
+
+  <div *ngIf="!loading && !error" class="tenants-table-container">
+    <table class="tenants-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Slug</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tenant of tenants" [class.inactive]="!tenant.isActive">
+          <td class="tenant-name">{{ tenant.name }}</td>
+          <td class="tenant-slug">{{ tenant.slug }}</td>
+          <td>{{ tenant.email || '-' }}</td>
+          <td>{{ tenant.phone || '-' }}</td>
+          <td>
+            <span class="status-badge" [class.active]="tenant.isActive" [class.inactive]="!tenant.isActive">
+              {{ tenant.isActive ? 'Active' : 'Inactive' }}
+            </span>
+          </td>
+          <td class="actions">
+            <button class="btn-icon btn-services" (click)="goToServices(tenant)" title="Manage Services">
+              📋
+            </button>
+            <button class="btn-icon btn-edit" (click)="openEditForm(tenant)" title="Edit">
+              ✏️
+            </button>
+            <button class="btn-icon btn-toggle" (click)="toggleActive(tenant)" 
+                    [title]="tenant.isActive ? 'Deactivate' : 'Activate'">
+              {{ tenant.isActive ? '👁️' : '🚫' }}
+            </button>
+            <button class="btn-icon btn-delete" (click)="deleteTenant(tenant)" title="Delete">
+              🗑️
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="tenants.length === 0" class="no-tenants">
+      <p>No tenants found. Click "Add New Tenant" to create one.</p>
+    </div>
+  </div>
+
+  <!-- Modal Form -->
+  <div class="modal" *ngIf="showForm" (click)="closeForm()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>{{ editingTenant ? 'Edit Tenant' : 'Add New Tenant' }}</h2>
+        <button class="btn-close" (click)="closeForm()">✕</button>
+      </div>
+
+      <form (ngSubmit)="saveTenant()" class="tenant-form">
+        <div class="form-group">
+          <label for="name">Tenant Name *</label>
+          <input 
+            type="text" 
+            id="name" 
+            [(ngModel)]="tenantForm.name" 
+            name="name"
+            required
+            placeholder="e.g., Christelle's Hair Salon"
+            (blur)="generateSlug()"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="slug">URL Slug *</label>
+          <input 
+            type="text" 
+            id="slug" 
+            [(ngModel)]="tenantForm.slug" 
+            name="slug"
+            required
+            placeholder="e.g., christelles-hair-salon"
+            pattern="[a-z0-9-]+"
+          >
+          <small class="help-text">URL-friendly identifier (lowercase, numbers, and hyphens only)</small>
+        </div>
+
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea 
+            id="description" 
+            [(ngModel)]="tenantForm.description" 
+            name="description"
+            rows="3"
+            placeholder="Brief description of the tenant"
+          ></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input 
+              type="email" 
+              id="email" 
+              [(ngModel)]="tenantForm.email" 
+              name="email"
+              placeholder="contact@example.com"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone</label>
+            <input 
+              type="tel" 
+              id="phone" 
+              [(ngModel)]="tenantForm.phone" 
+              name="phone"
+              placeholder="+27 XX XXX XXXX"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="address">Address</label>
+          <textarea 
+            id="address" 
+            [(ngModel)]="tenantForm.address" 
+            name="address"
+            rows="2"
+            placeholder="Physical address"
+          ></textarea>
+        </div>
+
+        <div class="form-group checkbox-group">
+          <label>
+            <input 
+              type="checkbox" 
+              [(ngModel)]="tenantForm.isActive" 
+              name="isActive"
+            >
+            <span>Active (tenant can be accessed)</span>
+          </label>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" (click)="closeForm()">
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary">
+            {{ editingTenant ? 'Update Tenant' : 'Create Tenant' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+

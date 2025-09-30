@@ -1,0 +1,24 @@
+@import '../admin.component.scss';
+
+// Reuse all styles from admin.component.scss
+// Add tenant-specific styles here if needed
+
+.tenant-slug {
+  font-family: 'Courier New', monospace;
+  color: #667eea;
+  font-weight: 600;
+}
+
+.btn-services {
+  &:hover {
+    background: #e8f5e9;
+  }
+}
+
+.help-text {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+
