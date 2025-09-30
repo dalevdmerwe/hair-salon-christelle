@@ -101,7 +101,7 @@
             name="slug"
             required
             placeholder="e.g., christelles-hair-salon"
-            pattern="[a-z0-9-]+"
+            pattern="[a-z0-9\-]+"
           >
           <small class="help-text">URL-friendly identifier (lowercase, numbers, and hyphens only)</small>
         </div>
@@ -185,11 +185,96 @@
           <small class="help-text">Start typing to search for address</small>
         </div>
 
+        <!-- Business Hours -->
+        <div class="form-section">
+          <h3>Business Hours</h3>
+          <p class="section-help">Set operating hours for each day of the week</p>
+
+          <div class="business-hours-grid">
+            <div class="hours-row">
+              <label for="monday">Monday</label>
+              <input
+                type="text"
+                id="monday"
+                [(ngModel)]="tenantForm.businessHours.monday"
+                name="monday"
+                placeholder="e.g., 9:00 AM - 5:00 PM or Closed"
+              >
+            </div>
+
+            <div class="hours-row">
+              <label for="tuesday">Tuesday</label>
+              <input
+                type="text"
+                id="tuesday"
+                [(ngModel)]="tenantForm.businessHours.tuesday"
+                name="tuesday"
+                placeholder="e.g., 9:00 AM - 5:00 PM or Closed"
+              >
+            </div>
+
+            <div class="hours-row">
+              <label for="wednesday">Wednesday</label>
+              <input
+                type="text"
+                id="wednesday"
+                [(ngModel)]="tenantForm.businessHours.wednesday"
+                name="wednesday"
+                placeholder="e.g., 9:00 AM - 5:00 PM or Closed"
+              >
+            </div>
+
+            <div class="hours-row">
+              <label for="thursday">Thursday</label>
+              <input
+                type="text"
+                id="thursday"
+                [(ngModel)]="tenantForm.businessHours.thursday"
+                name="thursday"
+                placeholder="e.g., 9:00 AM - 5:00 PM or Closed"
+              >
+            </div>
+
+            <div class="hours-row">
+              <label for="friday">Friday</label>
+              <input
+                type="text"
+                id="friday"
+                [(ngModel)]="tenantForm.businessHours.friday"
+                name="friday"
+                placeholder="e.g., 9:00 AM - 5:00 PM or Closed"
+              >
+            </div>
+
+            <div class="hours-row">
+              <label for="saturday">Saturday</label>
+              <input
+                type="text"
+                id="saturday"
+                [(ngModel)]="tenantForm.businessHours.saturday"
+                name="saturday"
+                placeholder="e.g., 10:00 AM - 2:00 PM or Closed"
+              >
+            </div>
+
+            <div class="hours-row">
+              <label for="sunday">Sunday</label>
+              <input
+                type="text"
+                id="sunday"
+                [(ngModel)]="tenantForm.businessHours.sunday"
+                name="sunday"
+                placeholder="e.g., Closed"
+              >
+            </div>
+          </div>
+        </div>
+
         <div class="form-group checkbox-group">
           <label>
-            <input 
-              type="checkbox" 
-              [(ngModel)]="tenantForm.isActive" 
+            <input
+              type="checkbox"
+              [(ngModel)]="tenantForm.isActive"
               name="isActive"
             >
             <span>Active (tenant can be accessed)</span>

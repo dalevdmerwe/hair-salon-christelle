@@ -73,15 +73,12 @@
 
   <section id="booking" class="booking">
     <div class="container">
-      <h2>Book an Appointment</h2>
-      <p class="section-subtitle">Select a service above to get started</p>
-
       <!-- Collapsed State - Show button -->
       <div *ngIf="!showBookingForm" class="booking-cta">
-        <button class="btn-book-appointment" (click)="scrollToServices()">
-          📅 Choose a Service to Book
+        <button class="btn-book-appointment" (click)="startBooking()">
+          📅 Book an Appointment
         </button>
-        <p class="hint">Click any service above to start booking</p>
+        <p class="hint">Click to start booking</p>
       </div>
 
       <!-- Expanded State - Show form -->

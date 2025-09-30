@@ -86,6 +86,18 @@ export class HomeComponent implements OnInit {
     }, 100);
   }
 
+  startBooking() {
+    // Expand the booking form without pre-selecting a service
+    this.showBookingForm = true;
+    // Scroll to booking form
+    setTimeout(() => {
+      const bookingSection = document.getElementById('booking');
+      if (bookingSection) {
+        bookingSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
+  }
+
   scrollToServices() {
     const servicesSection = document.getElementById('services');
     if (servicesSection) {

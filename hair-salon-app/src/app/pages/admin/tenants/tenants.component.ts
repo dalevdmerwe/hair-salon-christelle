@@ -310,11 +310,12 @@ export class TenantsComponent implements OnInit {
       }
 
       try {
+        // Use old Autocomplete API (more reliable with Angular forms)
         this.autocomplete = new google.maps.places.Autocomplete(
           this.addressInput.nativeElement,
           {
             types: ['address'],
-            componentRestrictions: { country: 'za' } // Restrict to South Africa
+            componentRestrictions: { country: 'za' }
           }
         );
 
