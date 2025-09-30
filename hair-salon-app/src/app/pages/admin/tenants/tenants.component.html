@@ -173,13 +173,16 @@
 
         <div class="form-group">
           <label for="address">Address</label>
-          <textarea 
-            id="address" 
-            [(ngModel)]="tenantForm.address" 
+          <input
+            type="text"
+            id="address"
+            [(ngModel)]="tenantForm.address"
             name="address"
-            rows="2"
-            placeholder="Physical address"
-          ></textarea>
+            placeholder="Start typing address..."
+            #addressInput
+            (focus)="initAddressAutocomplete()"
+          >
+          <small class="help-text">Start typing to search for address</small>
         </div>
 
         <div class="form-group checkbox-group">

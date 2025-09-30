@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TenantService } from '../../../core/services/tenant.service';
 import { SupabaseService } from '../../../core/services/supabase.service';
 import { Tenant } from '../../../core/models/tenant.model';
+
+declare var google: any;
 
 @Component({
   selector: 'app-tenants',
@@ -14,13 +16,16 @@ import { Tenant } from '../../../core/models/tenant.model';
   styleUrls: ['./tenants.component.scss']
 })
 export class TenantsComponent implements OnInit {
+  @ViewChild('addressInput') addressInput!: ElementRef;
+
   tenants: Tenant[] = [];
   loading = true;
   error: string | null = null;
-  
+
   // Form state
   showForm = false;
   editingTenant: Tenant | null = null;
+  autocomplete: any = null;
   
   // Form model
   tenantForm = {
@@ -52,7 +57,8 @@ export class TenantsComponent implements OnInit {
   constructor(
     private tenantService: TenantService,
     private supabaseService: SupabaseService,
-    private router: Router
+    private router: Router,
+    private ngZone: NgZone
   ) {}
 
   ngOnInit() {
@@ -287,6 +293,41 @@ export class TenantsComponent implements OnInit {
 
   goToBookings(tenant: Tenant) {
     this.router.navigate(['/admin', tenant.id, 'bookings']);
+  }
+
+  initAddressAutocomplete() {
+    if (this.autocomplete || !this.addressInput) {
+      return; // Already initialized
+    }
+
+    // Check if Google Maps API is loaded
+    if (typeof google === 'undefined' || !google.maps || !google.maps.places) {
+      console.warn('Google Maps API not loaded. Address autocomplete disabled.');
+      console.log('To enable: Add Google Maps script to index.html');
+      return;
+    }
+
+    try {
+      this.autocomplete = new google.maps.places.Autocomplete(
+        this.addressInput.nativeElement,
+        {
+          types: ['address'],
+          componentRestrictions: { country: 'za' } // Restrict to South Africa
+        }
+      );
+
+      this.autocomplete.addListener('place_changed', () => {
+        this.ngZone.run(() => {
+          const place = this.autocomplete.getPlace();
+
+          if (place.formatted_address) {
+            this.tenantForm.address = place.formatted_address;
+          }
+        });
+      });
+    } catch (error) {
+      console.error('Error initializing address autocomplete:', error);
+    }
   }
 }
 

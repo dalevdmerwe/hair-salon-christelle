@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ServiceService } from '../../core/services/service.service';
 import { TenantService } from '../../core/services/tenant.service';
+import { AnalyticsService } from '../../core/services/analytics.service';
 import { Service } from '../../core/models/service.model';
 import { Tenant } from '../../core/models/tenant.model';
 import { BookingFormComponent } from '../../components/booking-form/booking-form.component';
@@ -22,10 +24,13 @@ export class HomeComponent implements OnInit {
   loading = true;
   heroBackgroundUrl: string | null = null;
   selectedServiceId: string | null = null;
+  showBookingForm = false;
 
   constructor(
     private serviceService: ServiceService,
-    private tenantService: TenantService
+    private tenantService: TenantService,
+    private analyticsService: AnalyticsService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit() {
@@ -42,6 +47,11 @@ export class HomeComponent implements OnInit {
         // Load services for this tenant
         if (tenant) {
           this.loadServices(tenant.id);
+          // Track page visit
+          this.analyticsService.trackPageVisit(tenant.id, '/').subscribe({
+            next: () => console.log('Page visit tracked'),
+            error: (error) => console.error('Error tracking visit:', error)
+          });
         }
       },
       error: (err) => {
@@ -66,6 +76,7 @@ export class HomeComponent implements OnInit {
 
   selectService(serviceId: string) {
     this.selectedServiceId = serviceId;
+    this.showBookingForm = true;
     // Scroll to booking form
     setTimeout(() => {
       const bookingSection = document.getElementById('booking');
@@ -73,6 +84,34 @@ export class HomeComponent implements OnInit {
         bookingSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }, 100);
+  }
+
+  scrollToServices() {
+    const servicesSection = document.getElementById('services');
+    if (servicesSection) {
+      servicesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  getMapEmbedUrl(): SafeResourceUrl {
+    if (!this.tenant?.address) {
+      return this.sanitizer.bypassSecurityTrustResourceUrl('');
+    }
+
+    const encodedAddress = encodeURIComponent(this.tenant.address);
+    // Use simple iframe URL (works without API key)
+    const mapUrl = `https://maps.google.com/maps?q=${encodedAddress}&output=embed`;
+
+    return this.sanitizer.bypassSecurityTrustResourceUrl(mapUrl);
+  }
+
+  getDirections() {
+    if (!this.tenant?.address) return;
+
+    const encodedAddress = encodeURIComponent(this.tenant.address);
+    const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodedAddress}`;
+
+    window.open(directionsUrl, '_blank');
   }
 }
 

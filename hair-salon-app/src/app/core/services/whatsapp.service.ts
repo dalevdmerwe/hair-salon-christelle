@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BookingWithDetails } from '../models/booking.model';
+import { Tenant } from '../models/tenant.model';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +11,8 @@ export class WhatsAppService {
    * Send booking confirmation via WhatsApp
    * Opens WhatsApp with pre-filled message
    */
-  sendBookingConfirmation(booking: BookingWithDetails, tenantPhone: string): void {
-    const message = this.formatBookingConfirmation(booking);
+  sendBookingConfirmation(booking: BookingWithDetails, tenantPhone: string, tenant?: Tenant): void {
+    const message = this.formatBookingConfirmation(booking, tenant);
     this.openWhatsApp(booking.customerPhone, message);
   }
 
@@ -58,10 +59,10 @@ export class WhatsAppService {
   /**
    * Format booking confirmation message
    */
-  private formatBookingConfirmation(booking: BookingWithDetails): string {
+  private formatBookingConfirmation(booking: BookingWithDetails, tenant?: Tenant): string {
     const date = this.formatDate(booking.bookingDate);
-    
-    return `Hi ${booking.customerName}! 👋
+
+    let message = `Hi ${booking.customerName}! 👋
 
 Your booking at *${booking.tenantName}* has been confirmed! ✅
 
@@ -69,13 +70,22 @@ Your booking at *${booking.tenantName}* has been confirmed! ✅
 ⏰ *Time:* ${booking.bookingTime}
 💇 *Service:* ${booking.serviceName}
 ⏱️ *Duration:* ${booking.serviceDuration} minutes
-💰 *Price:* R${booking.servicePrice}
+💰 *Price:* R${booking.servicePrice}`;
 
-We look forward to seeing you!
+    // Add address with Google Maps link if available
+    if (tenant?.address) {
+      const encodedAddress = encodeURIComponent(tenant.address);
+      const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
+      message += `\n\n📍 *Location:*\n${tenant.address}\n\n🗺️ Get Directions: ${mapsUrl}`;
+    }
+
+    message += `\n\nWe look forward to seeing you!
 
 If you need to reschedule or cancel, please let us know as soon as possible.
 
 Thank you! 🌟`;
+
+    return message;
   }
 
   /**

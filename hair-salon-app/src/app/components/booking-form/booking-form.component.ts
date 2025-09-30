@@ -190,8 +190,8 @@ export class BookingFormComponent {
       tenantName: this.tenant.name
     };
 
-    // Send to customer
-    this.whatsappService.sendBookingConfirmation(bookingWithDetails, this.tenant.phone || '');
+    // Send to customer (include tenant for address)
+    this.whatsappService.sendBookingConfirmation(bookingWithDetails, this.tenant.phone || '', this.tenant);
   }
 
   validateForm(): boolean {
